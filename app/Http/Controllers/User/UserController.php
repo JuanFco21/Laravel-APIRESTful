@@ -67,7 +67,7 @@ class UserController extends Controller
             $user->name = $request->name;
         }
 
-        if($request->has('email') && $user->email != $request->mail){
+        if($request->has('email') && $user->email != $request->email){
             $user->verified = User::USUARIO_NO_VERIFICADO;
             $user->verification_token = User::generarVerificationToken();
             $user->email = $request->email;

@@ -28,12 +28,12 @@ Route::apiResource('buyers', BuyerController::class)->only(['index', 'show']);
 Categories
 Laravel 5.3 Route::resource('categories', 'Buyer\CategoryController');
 */
-Route::apiResource('categories', CategoryController::class); 
+Route::apiResource('categories', CategoryController::class);
 /*
 Products
 Laravel 5.3 Route::resource('buyers', 'Buyer\BuyerController', ['only' => ['index', 'show']]);
 */
-Route::apiResource('products', ProductController::class)->only(['index', 'show']); 
+Route::apiResource('products', ProductController::class)->only(['index', 'show']);
 /*
 Transactions
 */
@@ -41,7 +41,7 @@ Route::apiResource('transactions', TransactionController::class)->only(['index',
 /*
 Sellers
 */
-Route::apiResource('sellers', SellerController::class)->only(['index', 'show']); 
+Route::apiResource('sellers', SellerController::class)->only(['index', 'show']);
 /*
 Users
 */
