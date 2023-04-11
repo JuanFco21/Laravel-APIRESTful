@@ -26,20 +26,15 @@ class DatabaseSeeder extends Seeder
         Transaction::truncate();
         DB::table('category_product')->truncate();
 
-        $cantidadUsuarios = 1000;
-        $cantidadCategories = 30;
-        $cantidadProductos = 1000;
-        $cantidadTransacciones = 1000;
-
-        User::factory($cantidadUsuarios)->create();
-        Category::factory($cantidadCategories)->create();
-        Product::factory($cantidadProductos)->create()->each(
+        User::factory(1000)->create();
+        Category::factory(30)->create();
+        Product::factory(1000)->create()->each(
             function($product){
                 $categorias = Category::all()->random(mt_rand(1, 5))->pluck('id');
                 $product->categories()->attach($categorias);
             }
         );
-        Transaction::factory($cantidadTransacciones)->create();
+        Transaction::factory(1000)->create();
 
     }
 }
