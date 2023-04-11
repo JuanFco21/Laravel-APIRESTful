@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Models\Seller;
 use Illuminate\Http\Request;
 
 class SellerController extends Controller
@@ -12,23 +13,9 @@ class SellerController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $vendedores = Seller::has('products')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json(['data' => $vendedores], 200);
     }
 
     /**
@@ -36,30 +23,10 @@ class SellerController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $vendedor = Seller::has('products')->findOrFail($id);
+
+        return response()->json(['data' => $vendedor], 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }
