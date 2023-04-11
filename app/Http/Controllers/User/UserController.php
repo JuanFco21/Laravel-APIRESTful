@@ -14,6 +14,7 @@ class UserController extends ApiController
     public function index()
     {
         $usuarios = User::all();
+        /*return response()->json(['data' => $usuarios], 200);*/
         return $this->showAll($usuarios);
     }
 
@@ -37,6 +38,7 @@ class UserController extends ApiController
 
         $usuario = User::create($campos);
 
+        /*return response()->json(['data' => $usuario], 201);*/
         return $this->showOne($usuario, 201);
     }
 
@@ -47,6 +49,7 @@ class UserController extends ApiController
     {
         $usuario = User::findOrFail($id);
 
+        /*return response()->json(['data' => $usuario], 200);*/
         return $this->showOne($usuario);
     }
 
@@ -63,29 +66,35 @@ class UserController extends ApiController
             'admin' => 'in:' . User::USUARIO_ADMINISTRADOR . ',' . User::USUARIO_REGULAR,
         ]);
 
-        if($request->has('name')) {
+        if ($request->has('name')) {
             $user->name = $request->name;
         }
 
-        if($request->has('email') && $user->email != $request->email){
+        if ($request->has('email') && $user->email != $request->email) {
             $user->verified = User::USUARIO_NO_VERIFICADO;
             $user->verification_token = User::generarVerificationToken();
             $user->email = $request->email;
         }
 
-        if ($request->has('password')){
+        if ($request->has('password')) {
             $user->password = bcrypt($request->password);
         }
 
-        if ($request->has('admin')){
-            if(!$user->esVerificado()){
-                return $this->errorResponse('Unicamente los usuarios verificados pueden cambiar su valor de administrador', 409);
+        if ($request->has('admin')) {
+            if (!$user->esVerificado()) {
+                /* return response()->json(['error' => 'Unicamente los usuarios verificados pueden
+                               cambiar su valor de administrador', 'code' => 409], 409); */
+                return $this->errorResponse('Unicamente los usuarios verificados pueden cambiar
+                su valor de administrador', 409);
             }
             $user->admin = $request->admin;
         }
 
-        if(!$user->isDirty()){
-            return $this->errorResponse('Se debe especificar al menos un valor diferente para actualizar', 422);
+        if (!$user->isDirty()) {
+            /* return response()->json(['error' => 'Se debe especificar al menos un valor diferente
+            para actualizar', 'code' => 422], 422); */
+            return $this->errorResponse('Se debe especificar al menos un valor diferente
+            para actualizar', 422);
         }
 
         $user->save();
