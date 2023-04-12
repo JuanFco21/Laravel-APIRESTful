@@ -50,7 +50,6 @@ class Handler extends ExceptionHandler
             //
         });
     }
-
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $this->errorResponse('No autenticado.', 401);
@@ -67,9 +66,11 @@ class Handler extends ExceptionHandler
         if ($exception instanceof AuthenticationException) {
             return $this->unauthenticated($request, $exception);
         }
+        if ($exception instanceof AuthenticationException) {
+            return $this->errorResponse('No posee permisos para ejecutar esta acción', 403);
+        }
         return parent::render($request, $exception);
     }
-
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
         $errors = $e->validator->errors()->getMessages();
