@@ -4,9 +4,11 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use App\Traits\ApiResponser;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -76,6 +78,16 @@ class Handler extends ExceptionHandler
         }
         if ($exception instanceof MethodNotAllowedHttpException) {
             return $this->errorResponse('El método especificado en la petición no es válido', 405);
+        }
+        if ($exception instanceof HttpException) {
+            return $this->errorResponse($exception->getMessage(), $exception->getStatusCode());
+        }
+        if ($exception instanceof QueryException) {
+            $codigo = $exception->errorInfo[1];
+
+            if($codigo == 1451){
+                return $this->errorResponse('No se puede eliminar de forma permanente el recurso porque esta relacionado con otro registro.', 409);
+            }
         }
         return parent::render($request, $exception);
     }
