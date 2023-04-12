@@ -85,11 +85,17 @@ class Handler extends ExceptionHandler
         if ($exception instanceof QueryException) {
             $codigo = $exception->errorInfo[1];
 
-            if($codigo == 1451){
+            if ($codigo == 1451) {
                 return $this->errorResponse('No se puede eliminar de forma permanente el recurso porque esta relacionado con otro registro.', 409);
             }
         }
-        return parent::render($request, $exception);
+
+        if (config('app.debug')) {
+            return parent::render($request, $exception);
+        }
+
+        return $this->errorResponse('Falla inesperada. Intente luego', 500);
+
     }
     protected function convertValidationExceptionToResponse(ValidationException $e, $request)
     {
