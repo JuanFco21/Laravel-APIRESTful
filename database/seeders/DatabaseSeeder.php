@@ -36,5 +36,6 @@ class DatabaseSeeder extends Seeder
         );
         Transaction::factory(1000)->create();
 
+
     }
 }
