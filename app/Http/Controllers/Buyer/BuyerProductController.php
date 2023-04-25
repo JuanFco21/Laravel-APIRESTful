@@ -6,15 +6,21 @@ use App\Http\Controllers\ApiController;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
 
-class BuyerTransactionController extends ApiController
+class BuyerProductController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Buyer $buyer)
     {
-        $transactions = $buyer->transactions;
+        $products = $buyer->transactions()->with('product')
+            ->get()
+            ->pluck('product');
 
-        return $this->showAll($transactions);
+        //dd($products);
+
+        return $this->showAll($products);
+
     }
+
 }
