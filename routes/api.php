@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Buyer\BuyerController;
 use App\Http\Controllers\Seller\SellerController;
+use App\Http\Controllers\Seller\SellerCategoryController;
+use App\Http\Controllers\Seller\SellerProductController;
+use App\Http\Controllers\Seller\SellerTransactionController;
+use App\Http\Controllers\Seller\SellerBuyerController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\Controllers\Category\CategoryController;
@@ -63,6 +67,10 @@ Route::apiResource('transactions.sellers', TransactionSellerController::class)->
 Sellers
 */
 Route::apiResource('sellers', SellerController::class)->only(['index', 'show']);
+Route::apiResource('sellers.categories', SellerCategoryController::class)->only(['index']);
+Route::apiResource('sellers.buyers', SellerBuyerController::class)->only(['index']);
+Route::apiResource('sellers.products', SellerProductController::class)->except(['create', 'show', 'edit']);
+Route::apiResource('sellers.transactions', SellerTransactionController::class)->only(['index']);
 /*
 Users
 */
