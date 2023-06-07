@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
@@ -10,6 +11,10 @@ use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Seller\SellerTransactionController;
 use App\Http\Controllers\Seller\SellerBuyerController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\ProductCategoryController;
+use App\Http\Controllers\Product\ProductBuyerController;
+use App\Http\Controllers\Product\ProductTransactionController;
+use App\Http\Controllers\Product\ProductBuyerTransactionController;
 use App\Http\Controllers\Buyer\BuyerSellerController;
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Buyer\BuyerProductController;
@@ -57,6 +62,10 @@ Products
 Laravel 5.3 Route::resource('buyers', 'Buyer\BuyerController', ['only' => ['index', 'show']]);
 */
 Route::apiResource('products', ProductController::class)->only(['index', 'show']);
+Route::apiResource('products.categories', ProductCategoryController::class)->only(['index', 'update', 'destroy']);
+Route::apiResource('products.buyers', ProductBuyerController::class)->only(['index']);
+Route::apiResource('products.transactions', ProductTransactionController::class)->only(['index']);
+Route::apiResource('products.buyers.transactions', ProductBuyerTransactionController::class)->only(['store']);
 /*
 Transactions
 */
