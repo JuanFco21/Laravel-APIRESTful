@@ -83,4 +83,7 @@ Route::apiResource('sellers.transactions', SellerTransactionController::class)->
 /*
 Users
 */
-Route::apiResource('users', UserController::class);
+Route::apiResource('users', UserController::class)->except(['create', 'edit']);
+//Laravel 5.3 Route::name('verify)->get('users/verify/{token}', 'User\UserController@verify');
+Route::get('users/verify/{token}', [UserController::class, 'verify'])->name('verify');
+Route::get('users/{user}/resend', [UserController::class, 'resend'])->name('resend');
